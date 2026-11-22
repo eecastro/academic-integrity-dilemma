@@ -75,7 +75,7 @@
         members: g.map(function (me, i) {
           var partner = complete ? g[1 - i] : null;
           return {
-            code: me.code,
+            username: me.username,
             choice: me.choice,
             confidence: me.confidence,
             mattered: me.mattered,
@@ -93,7 +93,7 @@
     pairs.forEach(function (p) {
       p.members.forEach(function (m) {
         rows.push({
-          session: p.session, round: p.round, pair: p.pair, code: m.code,
+          session: p.session, round: p.round, pair: p.pair, username: m.username,
           choice: m.choice, partnerChoice: m.partnerChoice, confidence: m.confidence,
           points: m.points, outcome: p.outcome, status: p.status
         });
@@ -338,8 +338,8 @@
     pairs.forEach(function (p) {
       if (p.session !== session) return;
       p.members.forEach(function (m) {
-        var k = m.code.toLowerCase();
-        if (!map[k]) map[k] = { code: m.code, pairs: [], rounds: {}, pending: false };
+        var k = m.username;
+        if (!map[k]) map[k] = { username: m.username, pairs: [], rounds: {}, pending: false };
         var c = map[k];
         var label = 'R' + p.round + ': pair ' + p.pair;
         if (c.pairs.indexOf(label) < 0) c.pairs.push(label);
@@ -353,7 +353,7 @@
       var total = 0;
       Object.keys(c.rounds).forEach(function (r) { total += c.rounds[r]; });
       var capped = Math.min(total, cap);
-      var cells = [c.code, c.pairs.join(', ')];
+      var cells = [c.username, c.pairs.join(', ')];
       roundsInSession().slice(0, 2).forEach(function (r) {
         cells.push(c.rounds[r] != null ? c.rounds[r] : (c.pending ? 'pending' : '–'));
       });
@@ -364,7 +364,7 @@
 
   function renderCredit() {
     var rounds = roundsInSession().slice(0, 2);
-    var headers = ['Code', 'Pairs'].concat(rounds.map(function (r) { return 'Round ' + r + ' points'; }))
+    var headers = ['Username', 'Pairs'].concat(rounds.map(function (r) { return 'Round ' + r + ' points'; }))
       .concat(['Total (capped)']);
     setPanel('credit', table(headers, creditRows()));
   }
@@ -374,14 +374,14 @@
       return a.round - b.round || a.pair - b.pair;
     }).map(function (d) {
       return [
-        'Round ' + d.round, d.pair, d.code,
+        'Round ' + d.round, d.pair, d.username,
         d.choice === 'silent' ? 'Stayed silent' : 'Blamed partner',
         d.partnerChoice == null ? '–' : (d.partnerChoice === 'silent' ? 'Stayed silent' : 'Blamed partner'),
         d.confidence, d.points, d.outcome
       ];
     });
     setPanel('detail', table(
-      ['Round', 'Pair', 'Code', 'Your choice', 'Partner choice', 'Confidence', 'Points', 'Outcome'], rows));
+      ['Round', 'Pair', 'Username', 'Your choice', 'Partner choice', 'Confidence', 'Points', 'Outcome'], rows));
   }
 
   function renderReasons() {
@@ -415,10 +415,10 @@
   // ---------- Actions ----------
 
   function exportCsv() {
-    var head = ['Session', 'Round', 'Pair', 'Code', 'Your choice', 'Partner choice', 'Confidence', 'Points', 'Outcome'];
+    var head = ['Session', 'Round', 'Pair', 'Username', 'Your choice', 'Partner choice', 'Confidence', 'Points', 'Outcome'];
     var lines = [head.join(',')];
     detailRows().filter(inScope).forEach(function (d) {
-      var cells = [d.session, d.round, d.pair, d.code, d.choice, d.partnerChoice || '', d.confidence,
+      var cells = [d.session, d.round, d.pair, d.username, d.choice, d.partnerChoice || '', d.confidence,
         d.points == null ? '' : d.points, d.outcome];
       lines.push(cells.map(function (c) {
         var s = String(c);

@@ -5,10 +5,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var state = null;
 
-  var ADJECTIVES = ['maple', 'river', 'copper', 'quiet', 'bright', 'swift', 'amber', 'cedar', 'harbor', 'meadow', 'silver', 'olive'];
-  var NOUNS = ['fox', 'falcon', 'otter', 'lantern', 'comet', 'pine', 'tiger', 'kestrel', 'willow', 'summit'];
-
-  function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+  var USERNAME_RE = /^[a-z0-9._-]{3,30}$/;
 
   function storageKey(s) { return 'dilemma-submitted-' + s.session + '-' + s.round; }
 
@@ -150,10 +147,7 @@
       if (other.hidden) other.value = '';
     });
 
-    $('code').value = '';
-    $('suggest').onclick = function () {
-      $('code').value = pick(ADJECTIVES) + '-' + pick(NOUNS) + '-' + (10 + Math.floor(Math.random() * 90));
-    };
+    $('username').value = '';
   }
 
   function checked(name) {
@@ -164,7 +158,7 @@
   function collect() {
     return {
       pair: $('pair').value,
-      code: $('code').value.trim(),
+      username: $('username').value.trim().toLowerCase(),
       choice: checked('choice'),
       confidence: checked('confidence'),
       mattered: checked('mattered'),
@@ -175,7 +169,7 @@
 
   function validate(d) {
     if (!d.pair) return 'Choose your pair number.';
-    if (!/^[A-Za-z0-9-]{4,30}$/.test(d.code)) return 'Your code must be 4 to 30 letters, numbers, or dashes.';
+    if (!USERNAME_RE.test(d.username)) return 'Your username must be 3 to 30 letters, numbers, dots, dashes, or underscores.';
     if (!d.choice) return 'Choose what you tell the teacher.';
     if (!d.confidence) return 'Choose a confidence from 1 to 5.';
     if (!d.reasoning) return 'Please explain your reasoning.';
@@ -184,17 +178,17 @@
     return '';
   }
 
-  function showDone(code, text) {
+  function showDone(username, text) {
     $('form').hidden = true;
     $('done').hidden = false;
     var msg = $('done-text');
     msg.textContent = '';
-    if (code) {
-      msg.appendChild(document.createTextNode('Saved. Your code is '));
+    if (username) {
+      msg.appendChild(document.createTextNode('Saved for username '));
       var strong = document.createElement('strong');
-      strong.textContent = code;
+      strong.textContent = username;
       msg.appendChild(strong);
-      msg.appendChild(document.createTextNode('. Write it down. In Round 2, use the same code so your points can be added together.'));
+      msg.appendChild(document.createTextNode('. In Round 2, type the same username so your points can be added together.'));
     } else {
       msg.textContent = text;
     }
@@ -225,7 +219,7 @@
       .then(function (res) {
         if (!res.ok) throw new Error(res.error || 'Could not save.');
         markSubmitted(state);
-        showDone(res.code, '');
+        showDone(res.username, '');
       })
       .catch(function (err) {
         showError((err.message || 'Could not save.') +

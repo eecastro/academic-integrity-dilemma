@@ -2,7 +2,7 @@
 
 Two files serve students and the teacher from GitHub Pages:
 
-- `index.html`: the student page (scenario, points table, code, response)
+- `index.html`: the student page (scenario, points table, username, response)
 - `dashboard.html`: the teacher dashboard (passcode required)
 
 Responses are stored in a Google Sheet that you own. A small Apps Script web app
@@ -44,8 +44,8 @@ so the URL stays the same.
 5. The student page will be at `https://eecastro.github.io/academic-integrity-dilemma/`
    and the dashboard at `.../dashboard.html`.
 
-Do not put the dashboard link on the student page or in the class handout. Its data is
-protected by the passcode, but keep the link to yourself.
+Keep the dashboard link to yourself. Its data is protected by the passcode, but there's no
+reason to share the link with students.
 
 ### 3. Payoffs and settings
 
@@ -72,39 +72,40 @@ Before class:
 
 Round 1 (no talking):
 
-1. Students open the student page, pick their pair number, and choose a code.
-   The **Suggest a code** button gives an example like `maple-otter-42`.
-2. Each student writes the code down and submits.
+1. Students open the student page, choose their pair number, and type their school username.
+2. Each student submits. The confirmation screen repeats their username.
 3. When everyone has finished, uncheck **Accepting responses** or wait until the end.
 
 Round 2 (talking allowed):
 
 1. Set the round to 2, check **Accepting responses**, and save.
-2. Students use the **same code** as in Round 1.
+2. Students type the **same username** as in Round 1.
 
 Extra credit:
 
-- Dashboard > **Extra credit by code** shows each code's points for each round and the capped total.
-- Students bring their code to you. Only you can link codes to names, on your own paper list.
-- Codes must be unique within a round. The site rejects a code that is already used.
+- Dashboard > **Extra credit by username** shows each student's points for each round and
+  their capped total. Award the total shown for each username.
+- Points show as "pending" until both partners in that round have responded.
+- A student who mistypes their username in Round 2 will appear as a second row with only
+  Round 2 points. Check the **Submission detail** table to see whether the pair number
+  matches. You can then combine the two rows by hand.
+- A username can submit only once per round. The site rejects a repeat.
 
-## Anonymity notes
+## Privacy notes
 
-- The sheet has no names or emails. The dashboard never shows reasoning with a code or pair number.
-- The `Submissions` tab links each code to a pair number and round. You can see this, and since
-  you assigned pairs, that is expected. Keep the sheet private.
-- Students can see the points table but not other students' data.
-- A determined student could guess another student's code. That is a risk for extra credit, not
-  for responses, so tell students not to share their code.
-- Free-text reasoning is removed from any student's code and pair, but a student could still write
-  identifying details in the reasoning box. Remind them not to write names.
+- The `Submissions` tab stores each student's username with their pair number, round, and choice.
+  This is the trade-off for easy extra-credit lookup. Keep the sheet private.
+- The `Reasons` tab stores reasoning with no username or pair number, so reasoning quotes on the
+  dashboard can't be linked to a student.
+- Students can see the points table but can't see anyone else's responses.
+- Remind students not to write names in the reasoning box.
 
 ## Testing before class
 
-1. Submit two test responses using codes `test-one` and `test-two` with pair number 1.
-   Check that the dashboard shows a complete pair with points.
+1. Submit two test responses with usernames `test-one` and `test-two` and pair number 1.
+   Check that the extra credit table shows both usernames with points.
 2. Try submitting a third response for pair 1. It should be rejected.
-3. Try reusing a code in the same round. It should be rejected.
+3. Try submitting the same username twice in one round. It should be rejected.
 4. On the dashboard, select the test session and click **Delete this session's round** for each round.
    Then change the session name back to your real session.
 
@@ -112,8 +113,10 @@ Extra credit:
 
 - Anyone with the Web app URL can submit responses (that is how students submit). Ask
   students to submit only once. The page blocks a second submission on the same browser, but a
-  student who clears browser data could submit again with a different code. Watch for pairs with more
-  than two responses; the dashboard flags them.
+  student who clears browser data could submit again. Watch for pairs with more than two responses;
+  the dashboard flags them.
+- Usernames are not checked against the school's roster, so a typo creates a new name rather than
+  an error.
 - Passcode checks happen on the server, but the dashboard HTML itself is public (it shows only a sign-in form).
 - Apps Script has daily quotas. A class of about 30 is far below the limit.
 - Only rounds 1 and 2 appear in the extra credit table. Settings allow up to 9 rounds for later use.

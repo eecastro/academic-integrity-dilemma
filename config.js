@@ -2,7 +2,7 @@
 // so put nothing secret here. The teacher passcode lives only in Apps Script.
 window.DILEMMA_CONFIG = {
   // Paste the Web app URL from Apps Script (it ends in /exec).
-  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbwvSvXNmkJtNE37R853fC5GkJFJ9vXZSXgPl3Cx8Ps3n_hhLzNxw7RjVGyg3XmnuB0GLA/exec",
+  APPS_SCRIPT_URL: "PASTE_WEB_APP_URL_HERE",
 
   // Show the points table to students (set to false to hide it).
   SHOW_POINTS: true,
