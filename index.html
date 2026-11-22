@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Academic Integrity Dilemma</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap">
+    <h1>Academic Integrity Dilemma</h1>
+    <p id="status" class="notice">Loading…</p>
+
+    <section class="card" id="scenario-card" hidden>
+      <h2>The situation</h2>
+      <p id="scenario"></p>
+      <p id="round-note" class="round-note"></p>
+    </section>
+
+    <section class="card" id="payoff-card" hidden>
+      <h2>Points</h2>
+      <div class="table-wrap"><table class="table" id="payoff-table"></table></div>
+      <p class="muted" id="cap-note"></p>
+    </section>
+
+    <form id="form" class="card" hidden novalidate>
+      <h2>Your response</h2>
+
+      <div class="field">
+        <label for="pair">Pair number</label>
+        <select id="pair" required></select>
+        <p class="hint">Your teacher gave you this number.</p>
+      </div>
+
+      <div class="field">
+        <label for="code">Your code</label>
+        <div class="row">
+          <input id="code" type="text" maxlength="30" autocomplete="off" required>
+          <button type="button" id="suggest" class="secondary">Suggest a code</button>
+        </div>
+        <p class="hint">
+          Your code links your two rounds so your points can be added together.
+          Do not use your name, initials, birthday, student ID, or phone number.
+          Letters, numbers, and dashes only (4 to 30 characters). Write your code down
+          before you submit. In Round 2, use the same code.
+        </p>
+      </div>
+
+      <fieldset class="field">
+        <legend>What do you tell the teacher?</legend>
+        <div id="choices"></div>
+      </fieldset>
+
+      <fieldset class="field">
+        <legend>How confident are you that your partner will stay silent?</legend>
+        <div id="confidence" class="scale"></div>
+        <p class="hint">1 = not at all confident, 5 = very confident</p>
+      </fieldset>
+
+      <div class="field">
+        <label for="reasoning">Briefly explain your reasoning for your choice</label>
+        <textarea id="reasoning" rows="4" maxlength="1000" required></textarea>
+        <p class="hint">Please do not write names in this box.</p>
+      </div>
+
+      <fieldset class="field">
+        <legend>What mattered most in your decision?</legend>
+        <div id="mattered"></div>
+        <input id="mattered-other" type="text" maxlength="200" placeholder="Describe &quot;Other&quot;" hidden>
+      </fieldset>
+
+      <p id="error" class="error" role="alert"></p>
+      <button type="submit" id="submit">Submit</button>
+    </form>
+
+    <section class="card" id="done" hidden>
+      <h2>Saved</h2>
+      <p id="done-text"></p>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

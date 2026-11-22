@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teacher Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap wide">
+    <h1>Teacher dashboard</h1>
+
+    <section class="card" id="login">
+      <h2>Sign in</h2>
+      <form id="login-form">
+        <div class="field">
+          <label for="passcode">Teacher passcode</label>
+          <input id="passcode" type="password" autocomplete="current-password" required>
+        </div>
+        <button type="submit" id="login-btn">Open dashboard</button>
+      </form>
+      <p id="login-error" class="error" role="alert"></p>
+    </section>
+
+    <div id="app" hidden>
+      <section class="card controls">
+        <label>Session
+          <select id="session-filter"></select>
+        </label>
+        <label>Round
+          <select id="round-filter">
+            <option value="all">Both rounds</option>
+            <option value="1">Round 1</option>
+            <option value="2">Round 2</option>
+          </select>
+        </label>
+        <button type="button" id="refresh" class="secondary">Refresh</button>
+        <button type="button" id="export" class="secondary">Download CSV</button>
+      </section>
+
+      <p class="muted">The session and round filters apply to the overview, detail, mattered, and reasoning sections. Choice and outcome comparisons always show both rounds.</p>
+
+      <section class="cards" id="overview"></section>
+
+      <section class="card">
+        <h2>Choices by round</h2>
+        <div class="table-wrap" id="by-round"></div>
+      </section>
+
+      <section class="card">
+        <h2>Pair outcomes by round</h2>
+        <div class="table-wrap" id="outcomes"></div>
+      </section>
+
+      <section class="card">
+        <h2>What mattered most</h2>
+        <div class="table-wrap" id="mattered"></div>
+        <h3>"Other" answers</h3>
+        <ul id="other-list" class="plain"></ul>
+      </section>
+
+      <section class="card">
+        <h2>Trend across sessions</h2>
+        <p class="muted">Use this to compare classes and years. Blame rate is the share of responses that chose "Blame your partner".</p>
+        <div class="table-wrap" id="trend"></div>
+      </section>
+
+      <section class="card">
+        <h2>Extra credit by code</h2>
+        <p class="muted">Totals include only pairs where both partners have responded. Pending means a round is still waiting for a partner. Totals are capped at the limit in the Settings tab.</p>
+        <div class="table-wrap" id="credit"></div>
+      </section>
+
+      <section class="card">
+        <h2>Submission detail</h2>
+        <p class="muted">Use this to check codes and apply extra credit. Keep this page private.</p>
+        <div class="table-wrap" id="detail"></div>
+      </section>
+
+      <section class="card">
+        <h2>Reasoning (anonymous)</h2>
+        <p class="muted">Shown without codes or pair numbers.</p>
+        <div id="reasons"></div>
+      </section>
+
+      <section class="card">
+        <h2>Class settings</h2>
+        <form id="settings-form" class="settings-grid">
+          <label>Current round
+            <select id="set-round">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+            </select>
+          </label>
+          <label>Session name
+            <input id="set-session" type="text" maxlength="40" placeholder="e.g. Fall 2027 Period 3">
+          </label>
+          <label class="check">
+            <input id="set-accepting" type="checkbox"> Accepting responses
+          </label>
+          <div><button type="submit" id="save-settings">Save settings</button></div>
+        </form>
+        <p class="hint">Change the session name at the start of each new class, so each year's results stay separate. Payoff values are on the Settings tab of the spreadsheet.</p>
+
+        <h3>Delete a round's responses</h3>
+        <p class="hint">Use this to remove test data. It deletes responses for the session and round chosen above, and cannot be undone.</p>
+        <div class="row">
+          <select id="del-round" aria-label="Round to delete">
+            <option value="1">Round 1</option>
+            <option value="2">Round 2</option>
+          </select>
+          <button type="button" id="delete-round" class="danger">Delete this session's round</button>
+        </div>
+        <p id="settings-msg" class="muted" role="status"></p>
+      </section>
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>
